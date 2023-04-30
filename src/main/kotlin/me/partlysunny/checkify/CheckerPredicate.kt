@@ -1,6 +1,5 @@
 package me.partlysunny.checkify
 
-import com.google.common.base.Preconditions
 import me.partlysunny.checkify.relationships.PredicateRelationship
 import me.partlysunny.checkify.relationships.Relationship
 import java.lang.reflect.InvocationTargetException
@@ -18,12 +17,9 @@ class CheckerPredicate(private val predicate: String) {
 
     private fun checkValid() {
         //Check brackets
-        Preconditions.checkArgument(isBracketReady, "Predicate %s is not bracket ready!".formatted(predicate))
+        assert(isBracketReady) { "Predicate $predicate is not bracket ready!" }
         //Check chunks
-        Preconditions.checkArgument(
-            chunks.size % 2 == 1,
-            "Invalid predicate %s, chunks must have odd length: Chunks are: %s".formatted(predicate, chunks)
-        )
+        assert(chunks.size % 2 == 1) { "Invalid predicate $predicate, chunks must have odd length: Chunks are: $chunks" }
         for (i in chunks.indices) {
             val chunk = chunks[i]
             if (i % 2 == 1) {
