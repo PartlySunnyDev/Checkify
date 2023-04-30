@@ -26,13 +26,7 @@ class CheckerPredicate(private val predicate: String) {
                 try {
                     Relationship.valueOf(chunk)
                 } catch (e: Exception) {
-                    throw IllegalArgumentException(
-                        "All predicate joiners must be %s, Found: %s".formatted(
-                            Arrays.toString(
-                                Relationship.values()
-                            ), chunk
-                        )
-                    )
+                    throw IllegalArgumentException("All predicate joiners must be ${Relationship.values().contentToString()}, Found: $chunk")
                 }
             }
         }
@@ -97,7 +91,7 @@ class CheckerPredicate(private val predicate: String) {
     }
 
     private fun processTermWithContext(ctx: PredicateContext, term: String): String? {
-        if (term.length == 0) return term
+        if (term.isEmpty()) return term
         return if (term.startsWith("?")) {
             ctx[term.substring(1)]
         } else term
@@ -145,11 +139,7 @@ class CheckerPredicate(private val predicate: String) {
                         return try {
                             term1!!.toDouble() > term2!!.toDouble()
                         } catch (ignored: NumberFormatException) {
-                            throw IllegalArgumentException(
-                                "Left and right terms must both be parsable doubles in expression %s".formatted(
-                                    expression
-                                )
-                            )
+                            throw IllegalArgumentException("Left and right terms must both be parsable doubles in expression $expression")
                         }
                     }
 
@@ -157,11 +147,7 @@ class CheckerPredicate(private val predicate: String) {
                         return try {
                             term1!!.toDouble() < term2!!.toDouble()
                         } catch (ignored: NumberFormatException) {
-                            throw IllegalArgumentException(
-                                "Left and right terms must both be parsable doubles in expression %s".formatted(
-                                    expression
-                                )
-                            )
+                            throw IllegalArgumentException("Left and right terms must both be parsable doubles in expression $expression")
                         }
                     }
 
@@ -169,11 +155,7 @@ class CheckerPredicate(private val predicate: String) {
                         return try {
                             term1!!.toDouble() >= term2!!.toDouble()
                         } catch (ignored: NumberFormatException) {
-                            throw IllegalArgumentException(
-                                "Left and right terms must both be parsable doubles in expression %s".formatted(
-                                    expression
-                                )
-                            )
+                            throw IllegalArgumentException("Left and right terms must both be parsable doubles in expression $expression")
                         }
                     }
 
@@ -181,16 +163,12 @@ class CheckerPredicate(private val predicate: String) {
                         return try {
                             term1!!.toDouble() <= term2!!.toDouble()
                         } catch (ignored: NumberFormatException) {
-                            throw IllegalArgumentException(
-                                "Left and right terms must both be parsable doubles in expression %s".formatted(
-                                    expression
-                                )
-                            )
+                            throw IllegalArgumentException("Left and right terms must both be parsable doubles in expression $expression")
                         }
                     }
                 }
             }
-            throw IllegalArgumentException("Invalid expression found in predicate! %s".formatted(expression))
+            throw IllegalArgumentException("Invalid expression found in predicate! $expression")
         }
         var endRelationship: PredicateRelationship? = null
         for (i in chunks.indices) {
